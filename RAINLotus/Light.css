@@ -9,16 +9,14 @@ body{margin:auto;font-family:Verdana,Geneva,sans-serif}
 header{text-align:center;font-family:'Trebuchet MS',Helvetica,sans-serif}
 /* ASIDE */
 aside{
-	margin: 1rem;
-	margin-top: 0;
 	padding: 1rem;
+	margin-bottom: 1rem;
 	border-radius: 10px;
-	box-shadow: var(--sd2);
 	background-color: floralwhite;
 	font-family:sans-serif;
 }
-@media screen and (min-width:850px){aside{float:right;width:160px}}
-@media screen and (max-width:850px){aside{max-height:35vh;overflow-y:scroll}}
+@media screen and (min-width:850px){aside{float:right;width:160px;margin-left:1rem;box-shadow:var(--sd2)}}
+@media screen and (max-width:850px){aside{max-height:35vh;overflow-y:scroll;box-shadow:var(--sd)}}
 aside>p{text-align:center;font-weight:lighter;margin:0}
 aside>div{margin-top:1rem}
 aside>div>*{
@@ -39,10 +37,10 @@ aside a{
 /* U-N-I-F-I-E-D */
 p{margin:0;margin-bottom:1rem}
 pre{margin:0}
-:root{--sd: 1px 1px 1px #ccc}
+:root{--sd: 1px 1px 2px #ccc}
 :root{--sd2:0 0 3px #ccc}
 .RM_table, .RM_formula, .RM_diagram{overflow-x:auto}
-.RM_note, .RM_quote, .RM_list, .RM_tlist, .RM_dlist, .RM_table, .RM_coll, .RM_coll>summary, .RM_dialog, .RM_code, .RM_diagram, .RM_formula, .RM_raw, hr{margin:0 0 1rem 0!important}
+.RM_note, .RM_quote, .RM_list, .RM_tlist, .RM_dlist>dd, .RM_table, .RM_coll, .RM_coll>summary, .RM_dialog, .RM_code, .RM_diagram, .RM_formula, .RM_raw, hr{margin:0 0 1rem 0!important}
 .RM_note, .RM_quote, .RM_dialog, .RM_code{border-radius:5px}
 .RM_note, .RM_quote, .RM_code{box-shadow:var(--sd)}
 
@@ -65,16 +63,18 @@ table>*>tr>*>:last-child,
 	visibility: hidden;
 	color: lightsalmon;
 	text-decoration: none;
+	font-size: 1rem;
 }
 .RM_header>a::before{content:'§'}
 .RM_header:hover>a{visibility:visible}
+.RM_header:hover>a:hover{background-color:whitesmoke;border-radius:2px}
 h2.RM_header{font-size:1.8rem}
 h3.RM_header{font-size:1.45rem}
 h4.RM_header{font-size:1.3rem}
 h5.RM_header{font-size:1.15rem}
 h6.RM_header{font-size:1rem}
 /* NOTE */
-.RM_note{padding:1rem;padding-top:2rem;overflow-wrap:break-word}
+.RM_note{display:flow-root;padding:1rem;padding-top:2rem;overflow-wrap:break-word}
 .RM_note>div{position:relative}
 .RM_note>::before{
 	position: absolute;
@@ -114,21 +114,14 @@ blockquote::before{
 	left: -2.6rem;
 }
 /* LIST */
-.RM_list, .RM_tlist{padding-left:2rem}
-.RM_list>li>*, .RM_tlist>li>:not(:first-child){margin-bottom:.5rem!important}
-.RM_tlist{list-style-type:none}
-.RM_tlist>*>:first-child{display:inline-block;margin-left:0.5rem}
-.RM_tlist>::before{
-	display: inline-block;
-	width: 0.5rem;
-	font-family: monospace;
-	font-weight: bold;
-}
-.RM_tlist>._X::before,.RM_tlist>._N::before{content:'✖';color:salmon}
+.RM_list, .RM_tlist, .RM_dlist>dd{padding-left:2rem}
+.RM_list>li>*, .RM_tlist>li>*, .RM_dlist>dd>*{margin-bottom:.5rem!important}
+.RM_tlist>*>*{list-style-image:none}
+.RM_tlist>._X, .RM_tlist>._N{list-style-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 1024 724' xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M899.5 262.22L759.09 121.814 513.401 367.506l-245.686-245.69L127.31 262.223 373 507.911 127.315 753.598l140.399 140.398L513.4 648.307l245.694 245.691 140.394-140.4-245.685-245.687z' fill='salmon'/%3E%3C/svg%3E")}
 .RM_tlist>._X>p:first-child{text-decoration:line-through salmon;color:peachpuff}
 .RM_tlist>._N>p:first-child{color:salmon}
-.RM_tlist>._W::before{content:'※';color:slategray}
-.RM_tlist>._D::before,.RM_tlist>._Y::before{content:'✔';color:mediumaquamarine}
+.RM_tlist>._W{list-style-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 1124 924' xmlns='http://www.w3.org/2000/svg' width='15' height='15'%3E%3Cpath d='M996.433 445.986h.014L742.22 638.363l97.936 313.007a51.562 51.562 0 0 1 2.369 15.494c0 27.317-21.18 49.488-47.319 49.488-10.364 0-19.936-3.497-27.725-9.423l-.012.027-256.172-193.85-256.187 193.823c-7.789 5.926-17.359 9.423-27.724 9.423-26.138 0-47.319-22.171-47.319-49.488 0-5.425.836-10.611 2.369-15.494l97.939-313.007L26.158 445.986c-11.871-8.99-19.594-23.588-19.594-40.095 0-27.333 21.184-49.491 47.319-49.491h314.705l97.47-311.503c5.927-20.264 23.934-34.978 45.238-34.978s39.309 14.713 45.238 34.978L653.99 356.4h314.718c26.138 0 47.318 22.157 47.318 49.491 0 16.508-7.722 31.105-19.593 40.095z' fill='gold'/%3E%3C/svg%3E")}
+.RM_tlist>._D, .RM_tlist>._Y{list-style-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M843.694 293.61L425.256 712.055 186.145 472.948 66.58 592.505l358.676 358.66 538.004-537.99z' fill='%2366cdaa'/%3E%3C/svg%3E")}
 .RM_tlist>._D>p:first-child{text-decoration:line-through mediumaquamarine;color:silver}
 .RM_tlist>._Y>p:first-child{color:mediumaquamarine}
 dt{font-weight:bold}

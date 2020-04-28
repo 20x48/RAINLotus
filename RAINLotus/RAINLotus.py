@@ -28,7 +28,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 __author__ = '20x48'
-__version__ = '1.1.0'
+__version__ = '1.1.1'
 import logging
 from os import walk, chdir, mkdir
 from re import sub, compile, IGNORECASE

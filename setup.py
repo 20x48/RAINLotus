@@ -6,7 +6,7 @@ with open('README.md', encoding='utf-8') as README:
         author='20x48',
         author_email='the20x48@outlook.com',
         url='https://github.com/20x48/RAINLotus',
-        version='1.1.0',
+        version='1.1.1',
         packages=find_packages(),
         package_data={'RAINLotus': ['Template.html', 'Light.css']},
         python_requires='>=3.6',
