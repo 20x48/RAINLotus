@@ -4,10 +4,6 @@
 
 * [简体中文](https://github.com/20x48/RAINLotus/blob/master/README_zh.md)
 
-> Latest version: `1.1.0`
->
-> Updated: `2020-04-27 Mon.`
-
 ## What is RAINLotus?
 
 1. A new markup language I designed.
