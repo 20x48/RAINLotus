@@ -163,6 +163,8 @@ table>tbody>tr:nth-child(even){background-color:#fafafa}
 
 /* S-Y-M-B-O-L */
 .RS_shady, .RS_mark, .RS_code{border-radius:2px}
+/* MARK */
+.RS_mark{background-color:#FFEE58}
 /* DIM */
 .RS_dim{color:silver}
 /* SHADY */
@@ -194,3 +196,14 @@ table>tbody>tr:nth-child(even){background-color:#fafafa}
 	transition: 0.45s;
 }
 .RS_link:hover{color:#000;background-size:0.8em 2px;background-color:lightyellow;background-image:linear-gradient(lightpink,lightpink)}
+/* MAIL */
+.RS_mail{
+	margin: 0 .1em;
+	padding: 0 .1em;
+	display: inline-flex;
+	flex-direction: row-reverse;
+	background-color: lavender;
+	border-radius: 2px;
+}
+.RS_mail>._0::before{content:'.'}
+.RS_mail>._1::after{content:'@'}

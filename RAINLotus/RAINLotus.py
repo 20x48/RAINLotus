@@ -28,7 +28,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 __author__ = '20x48'
-__version__ = '1.1.1'
+__version__ = '1.1.2'
 import logging
 from os import walk, chdir, mkdir
 from re import sub, compile, IGNORECASE
@@ -36,7 +36,6 @@ from csv import reader, QUOTE_NONE
 from sys import stdin, stdout, exit
 from json import loads, JSONDecodeError
 from time import strftime, localtime
-from random import random
 from base64 import b32encode
 from codecs import getencoder
 from typing import Text, List, Dict, Iterable
@@ -51,8 +50,6 @@ from collections import defaultdict
 # Regular Expressirn #
 ##################r###
 # 好样哒, 保持队形ヾ(ｏ･ω･)ﾉ
-# Common          r
-RE_MAIL = compile(r'([A-Za-z0-9\u4e00-\u9fa5]+@[\w\-]+(?:\.[\w\-]+)+)')
 # Mark            r
 RE_SECT = compile(r'(\w+)((?: +\w+(?:=(?:".*?(?:\"".*?)*"|\w+))?)*):(?:  *(.*?) *| *)')
 RE_MARK = compile(r'(?:(\w+)\.)?(\w+)((?: +\w+(?:=(?:".*?(?:\\".*?)*"|\w+))?)*)(?: *% *(.*?) *)?')
@@ -78,7 +75,8 @@ RE_ANYTH_INGS = compile(r'([*+\-/=^_~]{2})(?=\S)(.*?\S)\1'                      
                         r'|\{(\S+?)\}'                                          # Reuse             | 6
                         r'|\[(##|#|\^)(?=\S)(.*?\S)\](?:\((?=\S)(.*?\S)\))?'    # Refer             | 7  8  9
                         r'|(?:\[([!~*]?)(?=\S)(.*?\S)\])?<(?=\S)(.*?\S)>'       # Link              | 10 11 12
-                        r'|<<(?:(\w+)\.)?(\w+)\)(?:\((?=\S)(.*?\S)\))?')        # Customize         | 13 14 15
+                        r'|([\w\-\.\u4e00-\u9fa5]+@[\w\-]+(?:\.[\w\-]+)+)'      # Mail              | 13
+                        r'|<<(?:(\w+)\.)?(\w+)\)(?:\((?=\S)(.*?\S)\))?')        # Customize         | 14 15 16
 ############# ヽ(;・＿・)ノ 停停停!
 # RESOURCES #
 #############
@@ -728,7 +726,9 @@ class RAINLotus:
             elif ant[8]:    # Refer
                 result.append(self._symbol_refer(impt, config, ant[7], ant[8], ant[9]))
             elif ant[12]:   # Link
-                result.append(self._symbol_link(impt, config, ant[10], ant[11], ant[12]))
+                result.append(self._symbol_links(impt, config, ant[10], ant[11], ant[12]))
+            elif ant[13]:   # Mail
+                result.append(self._symbol_mail(ant[13]))
             # TODO: Extensions
             last = anything.end()
             anything = RE_ANYTH_INGS.search(text, last)
@@ -791,11 +791,11 @@ class RAINLotus:
             else:
                 return f'''<a class="RS_link" href="{self._escape_char(href_)}#H{self._hash(hash_)}">{self.inline(impt, config, alt, True) if alt else self._escape_char(href)}</a>'''
 
-    def _symbol_link(self, impt, config, mode, alt, href):
+    def _symbol_links(self, impt, config, mode, alt, href):
         if alt in ('!', '~', '*'):
             mode, alt = alt, mode
         if mode == '!':
-            return f'''<img class="RS_image" src="{self._escape_char(href)}"{f' alt="{self.inline(impt, config, alt, True)}"' if alt else ''} />'''
+            return self._symbol_image(href, alt)
         elif mode in ('~', '*'):
             attr = []
             if 'A' in alt:
@@ -806,16 +806,28 @@ class RAINLotus:
                 attr.append('muted')
             if 'P' in alt:
                 attr.append('preload')
-            # * 0101010
             # ~ 1111110
-            tag = ['video', 'audio'][ord(mode)>>6]
-            return f'''<{tag} class="RS_{tag}" src="{self._escape_char(href)}" controls{' ' + ' '.join(attr) if attr else ''}></{tag}>'''
-        elif href.startswith('mailto:') or RE_MAIL.match(href):
-            return f'<a class="RS_link" href="{self._escape_mail(f"mailto:{href}")}">{self._escape_mail(alt if alt else href)}</a>'
-        elif alt or any(map(lambda x:href.startswith(x), ('https://', 'http://', 'ftp://'))):
-            return f'<a class="RS_link" href="{self._escape_char(href)}">{self.inline(impt, config, alt, True) if alt else self._escape_char(href)}</a>'
-        else:
-            return self._escape_char(href)
+            # * 0101010
+            if ord(mode)>>6:
+                return self._symbol_audio(href, attr)
+            else:
+                return self._symbol_video(href, attr)
+        return self._symbol_link(impt, config, href, alt)
+
+    def _symbol_link(self, impt, config, href, alt):
+        return f'<a class="RS_link" href="{self._escape_char(href)}">{self.inline(impt, config, alt, True) if alt else self._escape_char(href)}</a>'
+
+    def _symbol_image(self, href, alt):
+        return f'''<img class="RS_image" src="{self._escape_char(href)}"{f' alt="{self._escape_char(alt)}"' if alt else ''} />'''
+
+    def _symbol_audio(self, href, attr):
+        return f'''<audio class="RS_audio" src="{self._escape_char(href)}" controls{' ' + ' '.join(attr) if attr else ''}></audio>'''
+
+    def _symbol_video(self, href, attr):
+        return f'''<video class="RS_video" src="{self._escape_char(href)}" controls{' ' + ' '.join(attr) if attr else ''}></video>'''
+
+    def _symbol_mail(self, href):
+        return f'''<span class="RS_mail">{'<span class="_1"></span>'.join(map(lambda x:'<span class="_0"></span>'.join(reversed(x.split('.'))), reversed(href.split('@'))))}</span>'''
 
     def _config_integrate(self, impt, config):
         result = defaultdict(dict)
@@ -871,10 +883,6 @@ class RAINLotus:
         return ''.join({'"':'&#34;',
                         '&':'&amp;',
                         '<':'&lt;'}.get(c, c) for c in text)
-
-    @staticmethod
-    def _escape_mail(text) -> Text:
-        return ''.join(f'&#{ord(c)};' if random() < 0.5 else f'&#x{ord(c):x};' for c in text)
 
     @staticmethod
     def _hash(text) -> Text:
