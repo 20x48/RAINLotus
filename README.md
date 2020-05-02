@@ -19,7 +19,7 @@
 * ✅Expand easily
 * 🔄Infinite nesting
 * 🎨Rich inline markup (named "symbol")
-    * (the most basic) **Bold**, *Italic*, ***Bold Italic***, ~~Strike~~, Superscript, Subscript, Dim (the last three items cannot be reflected in GFM)
+    * (the most basic) **Bold**, *Italic*, ***Bold Italic***, ~~Strike~~, <sup>Superscript</sup>, <sub>Subscript</sub>, Dim, Mark (the last two items cannot be reflected in GFM)
     * comes with "刮刮条" (a piece of text with the same foreground and background, move the mouse over it will display the original content. Just call it "shady")
     * there is also "shield" (like "████")
     * insert pictures, audio and video (will consider optimization for a single video website)
@@ -53,6 +53,8 @@
 ## Let's start!
 
 Documentation: <https://docs.20x48.net/RAINLotus>
+
+Release note: <https://docs.20x48.net/RAINLotus/release-note>
 
 ## License
 
