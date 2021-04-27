@@ -1,0 +1,117 @@
+pre[class*="language-"] {
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	color: #495057;
+	font-family: 'Cascadia Code', 'Victor Mono', 'JetBrains Mono', 'Fira Code', 'DejaVu Sans Mono for Powerline', 'Monofur for Powerline', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 16px;
+	line-height: 1.35em;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+
+	overflow: auto;
+	padding: 1em;
+}
+
+.token.comment,
+.token.doctype,
+.token.prolog {
+	color: #AABFC9;
+}
+
+.token.attr-name,
+.token.builtin,
+.token.cdata,
+.token.char,
+.token.class,
+.token.inserted,
+.token.operator,
+.token.property,
+.token.punctuation {
+	color: #39ADB5;
+}
+
+.token.class-name,
+.token.regex {
+	color: #6182B8;
+}
+
+.token.attr-value,
+.token.attribute,
+.token.pseudo-class,
+.token.pseudo-element,
+.token.string {
+	color: #F6A434;
+}
+
+.token.atrule,
+.token.boolean,
+.token.constant,
+.token.function,
+.token.id,
+.token.important,
+.token.keyword,
+.token.symbol {
+	color: #7C4DFF;
+}
+
+.token.id,
+.token.important {
+	font-weight: bold;
+}
+
+.token.hexcode,
+.token.number,
+.token.unit {
+	color: #F76D47;
+}
+
+.token.deleted,
+.token.entity,
+.token.selector,
+.token.tag,
+.token.url,
+.token.variable {
+	color: #E53935;
+}
+
+div.code-toolbar {position: relative}
+div.code-toolbar>.toolbar {
+	position: absolute;
+	top: .5em;
+	right: .5em;
+	transition: opacity .15s;
+	opacity: 0;
+}
+div.code-toolbar:hover>.toolbar {opacity: 1}
+div.code-toolbar:focus-within>.toolbar {opacity: 1}
+div.code-toolbar>.toolbar .toolbar-item {
+	display: inline-block;
+	cursor: default;
+}
+div.code-toolbar>.toolbar a {cursor: pointer}
+div.code-toolbar>.toolbar button {
+	background: 0;
+	border: 0;
+	color: inherit;
+	font: inherit;
+	line-height: normal;
+	overflow: visible;
+	padding: 0;
+}
+div.code-toolbar>.toolbar a, div.code-toolbar>.toolbar button, div.code-toolbar>.toolbar span {
+	color: dimgray;
+	border: 1px dotted darkgray;
+	font-size: .8em;
+	padding: 0 .5em;
+	border-radius: .5em;
+}
